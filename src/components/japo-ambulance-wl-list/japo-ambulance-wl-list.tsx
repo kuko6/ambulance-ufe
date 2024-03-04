@@ -16,9 +16,10 @@ export class JapoAmbulanceWlList {
 
   private async getWaitingPatientsAsync(): Promise<WaitingListEntry[]> {
     try {
-      const response = await
-        AmbulanceWaitingListApiFactory(undefined, this.apiBase).
-          getWaitingListEntries(this.ambulanceId)
+      const response = await AmbulanceWaitingListApiFactory(undefined, this.apiBase)
+        .getWaitingListEntries(this.ambulanceId)
+      
+      console.log(response)
       if (response.status < 299) {
         return response.data;
       } else {
@@ -34,10 +35,10 @@ export class JapoAmbulanceWlList {
     this.waitingPatients = await this.getWaitingPatientsAsync();
   }
 
-  // private isoDateToLocale(iso:string) {
-  //   if(!iso) return '';
-  //   return new Date(Date.parse(iso)).toLocaleTimeString()
-  // }
+  private isoDateToLocale(iso:string) {
+    if(!iso) return '';
+    return new Date(Date.parse(iso)).toLocaleTimeString()
+  }
 
   render() {
     return (
@@ -46,7 +47,13 @@ export class JapoAmbulanceWlList {
           ? <div class="error">{this.errorMessage}</div>
           :
            <md-list>
-            ...
+              {this.waitingPatients.map((patient, index) =>
+              <md-list-item onClick={ () => this.entryClicked.emit(index.toString())}>
+                <div slot="headline">{patient.name}</div>
+                <div slot="supporting-text">{"Predpokladaný vstup: " + this.isoDateToLocale(patient.estimatedStart)}</div>
+                  <md-icon slot="start">person</md-icon>
+              </md-list-item>
+            )}
           </md-list>
         }
       </Host>
