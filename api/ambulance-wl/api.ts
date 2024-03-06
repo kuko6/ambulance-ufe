@@ -105,11 +105,174 @@ export interface WaitingListEntry {
 }
 
 /**
+ * AmbulanceConditionsApi - axios parameter creator
+ * @export
+ */
+export const AmbulanceConditionsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * By using ambulanceId you get list of predefined conditions
+         * @summary Provides the list of conditions associated with ambulance
+         * @param {string} ambulanceId pass the id of the particular ambulance
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getConditions: async (ambulanceId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'ambulanceId' is not null or undefined
+            assertParamExists('getConditions', 'ambulanceId', ambulanceId)
+            const localVarPath = `/waiting-list/{ambulanceId}/condition`
+                .replace(`{${"ambulanceId"}}`, encodeURIComponent(String(ambulanceId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * AmbulanceConditionsApi - functional programming interface
+ * @export
+ */
+export const AmbulanceConditionsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = AmbulanceConditionsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * By using ambulanceId you get list of predefined conditions
+         * @summary Provides the list of conditions associated with ambulance
+         * @param {string} ambulanceId pass the id of the particular ambulance
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getConditions(ambulanceId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Condition>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getConditions(ambulanceId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * AmbulanceConditionsApi - factory interface
+ * @export
+ */
+export const AmbulanceConditionsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = AmbulanceConditionsApiFp(configuration)
+    return {
+        /**
+         * By using ambulanceId you get list of predefined conditions
+         * @summary Provides the list of conditions associated with ambulance
+         * @param {string} ambulanceId pass the id of the particular ambulance
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getConditions(ambulanceId: string, options?: any): AxiosPromise<Array<Condition>> {
+            return localVarFp.getConditions(ambulanceId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * AmbulanceConditionsApi - interface
+ * @export
+ * @interface AmbulanceConditionsApi
+ */
+export interface AmbulanceConditionsApiInterface {
+    /**
+     * By using ambulanceId you get list of predefined conditions
+     * @summary Provides the list of conditions associated with ambulance
+     * @param {string} ambulanceId pass the id of the particular ambulance
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AmbulanceConditionsApiInterface
+     */
+    getConditions(ambulanceId: string, options?: AxiosRequestConfig): AxiosPromise<Array<Condition>>;
+
+}
+
+/**
+ * AmbulanceConditionsApi - object-oriented interface
+ * @export
+ * @class AmbulanceConditionsApi
+ * @extends {BaseAPI}
+ */
+export class AmbulanceConditionsApi extends BaseAPI implements AmbulanceConditionsApiInterface {
+    /**
+     * By using ambulanceId you get list of predefined conditions
+     * @summary Provides the list of conditions associated with ambulance
+     * @param {string} ambulanceId pass the id of the particular ambulance
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AmbulanceConditionsApi
+     */
+    public getConditions(ambulanceId: string, options?: AxiosRequestConfig) {
+        return AmbulanceConditionsApiFp(this.configuration).getConditions(ambulanceId, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
  * AmbulanceWaitingListApi - axios parameter creator
  * @export
  */
 export const AmbulanceWaitingListApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * Use this method to store new entry into the waiting list.
+         * @summary Saves new entry into waiting list
+         * @param {string} ambulanceId pass the id of the particular ambulance
+         * @param {WaitingListEntry} waitingListEntry Waiting list entry to store
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createWaitingListEntry: async (ambulanceId: string, waitingListEntry: WaitingListEntry, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'ambulanceId' is not null or undefined
+            assertParamExists('createWaitingListEntry', 'ambulanceId', ambulanceId)
+            // verify required parameter 'waitingListEntry' is not null or undefined
+            assertParamExists('createWaitingListEntry', 'waitingListEntry', waitingListEntry)
+            const localVarPath = `/waiting-list/{ambulanceId}/entries`
+                .replace(`{${"ambulanceId"}}`, encodeURIComponent(String(ambulanceId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(waitingListEntry, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * Use this method to delete the specific entry from the waiting list.
          * @summary Deletes specific entry
@@ -275,6 +438,18 @@ export const AmbulanceWaitingListApiFp = function(configuration?: Configuration)
     const localVarAxiosParamCreator = AmbulanceWaitingListApiAxiosParamCreator(configuration)
     return {
         /**
+         * Use this method to store new entry into the waiting list.
+         * @summary Saves new entry into waiting list
+         * @param {string} ambulanceId pass the id of the particular ambulance
+         * @param {WaitingListEntry} waitingListEntry Waiting list entry to store
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createWaitingListEntry(ambulanceId: string, waitingListEntry: WaitingListEntry, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WaitingListEntry>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createWaitingListEntry(ambulanceId, waitingListEntry, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
          * Use this method to delete the specific entry from the waiting list.
          * @summary Deletes specific entry
          * @param {string} ambulanceId pass the id of the particular ambulance
@@ -333,6 +508,17 @@ export const AmbulanceWaitingListApiFactory = function (configuration?: Configur
     const localVarFp = AmbulanceWaitingListApiFp(configuration)
     return {
         /**
+         * Use this method to store new entry into the waiting list.
+         * @summary Saves new entry into waiting list
+         * @param {string} ambulanceId pass the id of the particular ambulance
+         * @param {WaitingListEntry} waitingListEntry Waiting list entry to store
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createWaitingListEntry(ambulanceId: string, waitingListEntry: WaitingListEntry, options?: any): AxiosPromise<WaitingListEntry> {
+            return localVarFp.createWaitingListEntry(ambulanceId, waitingListEntry, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Use this method to delete the specific entry from the waiting list.
          * @summary Deletes specific entry
          * @param {string} ambulanceId pass the id of the particular ambulance
@@ -386,6 +572,17 @@ export const AmbulanceWaitingListApiFactory = function (configuration?: Configur
  */
 export interface AmbulanceWaitingListApiInterface {
     /**
+     * Use this method to store new entry into the waiting list.
+     * @summary Saves new entry into waiting list
+     * @param {string} ambulanceId pass the id of the particular ambulance
+     * @param {WaitingListEntry} waitingListEntry Waiting list entry to store
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AmbulanceWaitingListApiInterface
+     */
+    createWaitingListEntry(ambulanceId: string, waitingListEntry: WaitingListEntry, options?: AxiosRequestConfig): AxiosPromise<WaitingListEntry>;
+
+    /**
      * Use this method to delete the specific entry from the waiting list.
      * @summary Deletes specific entry
      * @param {string} ambulanceId pass the id of the particular ambulance
@@ -438,6 +635,19 @@ export interface AmbulanceWaitingListApiInterface {
  * @extends {BaseAPI}
  */
 export class AmbulanceWaitingListApi extends BaseAPI implements AmbulanceWaitingListApiInterface {
+    /**
+     * Use this method to store new entry into the waiting list.
+     * @summary Saves new entry into waiting list
+     * @param {string} ambulanceId pass the id of the particular ambulance
+     * @param {WaitingListEntry} waitingListEntry Waiting list entry to store
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AmbulanceWaitingListApi
+     */
+    public createWaitingListEntry(ambulanceId: string, waitingListEntry: WaitingListEntry, options?: AxiosRequestConfig) {
+        return AmbulanceWaitingListApiFp(this.configuration).createWaitingListEntry(ambulanceId, waitingListEntry, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * Use this method to delete the specific entry from the waiting list.
      * @summary Deletes specific entry

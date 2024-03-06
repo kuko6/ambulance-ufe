@@ -2,7 +2,7 @@ import { newSpecPage } from '@stencil/core/testing';
 import { JapoAmbulanceWlList } from '../japo-ambulance-wl-list';
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-import { WaitingListEntry } from '../../../api/ambulance-wl';
+import { WaitingListEntry } from '../../../../api/ambulance-wl';
 
 describe('japo-ambulance-wl-list', () => {
 
